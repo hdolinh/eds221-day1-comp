@@ -1,0 +1,43 @@
+---
+title: "Toolik Chlorophyll Concentrations"
+author: "Halina Do-Linh"
+date: "8/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(skimr)
+```
+
+## Read in toolik_chlorophyll.csv as a data frame stored as "toolik_chlorophyll
+
+```{r}
+toolik_chlorphyll <- read_csv(here::here("data", "data-raw", "toolik_chlorophyll.csv"))
+
+
+```
+
+## Explore the imported data with `skimr::skim()`
+```{r}
+dim(toolik_chlorphyll)
+head(toolik_chlorphyll)
+tail(toolik_chlorphyll)
+skim(toolik_chlorphyll)
+names(toolik_chlorphyll)
+# I see from names that these column names would be hard to work with because of the capitalization and the spaces
+
+```
+
+## Replace toolik_chlorphyll with toolik_chlorophyll so that the name is right...then replace and use the janitor function
+```{r}
+
+toolik_chlorphyll
+
+toolik_chlorphyll <- toolik_chlorphyll %>% clean_names()
+
+```
+
