@@ -16,18 +16,18 @@ library(skimr)
 ## Read in toolik_chlorophyll.csv as a data frame stored as "toolik_chlorophyll
 
 ```{r}
-toolik_chlorphyll <- read_csv(here::here("data", "data-raw", "toolik_chlorophyll.csv"))
+toolik_chlorophyll <- read_csv(here::here("data", "data-raw", "toolik_chlorophyll.csv"), na = ".")
 
 
 ```
 
 ## Explore the imported data with `skimr::skim()`
 ```{r}
-dim(toolik_chlorphyll)
-head(toolik_chlorphyll)
-tail(toolik_chlorphyll)
-skim(toolik_chlorphyll)
-names(toolik_chlorphyll)
+dim(toolik_chlorophyll)
+head(toolik_chlorophyll)
+tail(toolik_chlorophyll)
+skim(toolik_chlorophyll)
+names(toolik_chlorophyll)
 # I see from names that these column names would be hard to work with because of the capitalization and the spaces
 
 ```
@@ -35,9 +35,32 @@ names(toolik_chlorphyll)
 ## Replace toolik_chlorphyll with toolik_chlorophyll so that the name is right...then replace and use the janitor function
 ```{r}
 
-toolik_chlorphyll
+toolik_chlorophyll <- toolik_chlorophyll %>% clean_names()
 
-toolik_chlorphyll <- toolik_chlorphyll %>% clean_names()
+```
+
+
+## Create a scatterplot of depth versus chlorophyll A concentration
+
+- Make point size `size` changed based on the concentration
+- Make all points "cyan"
+- Update the theme to `theme_dark()`
+
+```{r}
+
+chlorophyll_plot <- ggplot(data = toolik_chlorophyll, 
+                           aes(x = active_chl_a_ug_l, y = depth)) +
+  geom_point(aes(size = active_chl_a_ug_l), 
+             color = "cyan") +
+  theme_dark() +
+  scale_y_reverse()
+
+chlorophyll_plot
+
+```
+
+```{r}
+ggsave(here::here("figs", "chlorophyll_graph.jpg"), plot = chlorophyll_plot)
 
 ```
 
